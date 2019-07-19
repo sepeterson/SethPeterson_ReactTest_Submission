@@ -17,10 +17,10 @@ class App extends Component {
     this.fetchMembers(0);
   }
 
-  isOkay = statusCode => {
+  isOkay(statusCode) {
     let diff = 200 - statusCode;
     return !(diff < 0 || diff > 99);
-  };
+  }
 
   updatePage(page) {
     if (page >= 0 && page < this.state.numberPages) {
@@ -28,7 +28,7 @@ class App extends Component {
     }
   }
 
-  filterResponse = member => {
+  filterResponse(member) {
     const currentCongress = member.congresses[0];
     return {
       _id: member._id,
@@ -41,7 +41,7 @@ class App extends Component {
       officialName: member.officialName,
       oathOfOfficeDate: member.oathOfOfficeDate
     };
-  };
+  }
 
   fetchMembers(page) {
     this.setState({ isLoading: true, errorText: "" });
