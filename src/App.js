@@ -58,6 +58,9 @@ class App extends Component {
         throw new Error("Error with proxy server!");
       })
       .then(membersJson => {
+        if (!membersJson.results) {
+          throw new Error("API response missing results");
+        }
         let { pagination } = membersJson;
         this.setState({
           members: membersJson.results.map(member =>
@@ -78,11 +81,11 @@ class App extends Component {
     const { members, page, numberPages, errorText } = this.state;
     return (
       <div className="App">
-        <div>
+        <div className="content-container">
           <h3>Members</h3>
           {this.state.errorText && <h3>{errorText}</h3>}
           {this.state.isLoading ? (
-            <span>loading...</span>
+            <div>loading...</div>
           ) : (
             <MemberList members={members} />
           )}
@@ -90,7 +93,7 @@ class App extends Component {
             minus 1
           </button>
           <span>
-            page {page + 1} of {numberPages}
+            Page {page + 1} of {numberPages}
           </span>
           <button
             className="pageDown"
