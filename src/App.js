@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import MemberList from "./components/MemberList";
+import StateSelector from "./components/StateSelector/StateSelector";
 import * as MemberAPI from "./MemberAPI";
 
 class App extends Component {
@@ -14,10 +15,12 @@ class App extends Component {
       errorText: "",
       isLoading: false,
       partyFilter: "",
-      sortBy: "sortName"
+      sortBy: "sortName",
+      stateFilter: ""
     };
 
     this.updatePartyFilter = this.updatePartyFilter.bind(this);
+    this.updateStateFilter = this.updateStateFilter.bind(this);
     this.updateSortBy = this.updateSortBy.bind(this);
   }
 
@@ -32,13 +35,13 @@ class App extends Component {
   }
 
   fetchMembers(args) {
-    const { page, perPage, partyFilter, sortBy } = Object.assign(
+    const { page, perPage, partyFilter, sortBy, stateFilter } = Object.assign(
       {},
       this.state,
       args
     );
     this.setState({ isLoading: true, errorText: "" });
-    MemberAPI.fetchMembers(page, perPage, partyFilter, sortBy)
+    MemberAPI.fetchMembers(page, perPage, partyFilter, sortBy, stateFilter)
       .then(membersJson => {
         if (!membersJson.results) {
           throw new Error("API response missing results");
@@ -61,8 +64,14 @@ class App extends Component {
 
   updatePartyFilter(event) {
     const partyFilter = event.target.value;
-    this.setState({ partyFilter });
-    this.fetchMembers({ partyFilter });
+    this.setState({ partyFilter, page: 0 });
+    this.fetchMembers({ partyFilter, page: 0 });
+  }
+
+  updateStateFilter(event) {
+    const stateFilter = event.target.value;
+    this.setState({ stateFilter, page: 0 });
+    this.fetchMembers({ stateFilter, page: 0 });
   }
 
   updateSortBy(event) {
@@ -92,9 +101,14 @@ class App extends Component {
                     <option value="" />
                     <option value="Democrat">Democrat</option>
                     <option value="Republican">Republican</option>
+                    <option value="Independent">Independent</option>
                   </select>
                 </label>
               </form>
+              <StateSelector
+                stateFilter={this.state.stateFilter}
+                updateStateFilter={this.updateStateFilter}
+              />
               <h4>Sort By</h4>
               <form>
                 <label>
