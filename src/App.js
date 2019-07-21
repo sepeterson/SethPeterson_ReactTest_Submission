@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import MemberList from "./components/MemberList";
-import config from "./config.json";
+import * as MemberAPI from "./MemberAPI";
 
 class App extends Component {
   constructor(props) {
@@ -20,44 +20,22 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.fetchMembers(0);
+    this.fetchMembers();
   }
 
   updatePage(page) {
     if (page >= 0 && page < this.state.numberPages) {
-      this.fetchMembers(page);
+      this.fetchMembers(page, this.state.perPage, this.state.partyFilter);
     }
   }
 
-  filterResponse(member) {
-    const currentCongress = member.congresses[0];
-    return {
-      _id: member._id,
-      addresses: member.addresses,
-      party: currentCongress.partyAffiliations[0].name,
-      committeeAssignments: currentCongress.committeeAssignments,
-      stateCode: currentCongress.stateCode,
-      stateDistrict: currentCongress.stateDistrict,
-      subCommitteeAssignments: currentCongress.subCommitteeAssignments,
-      officialName: member.officialName,
-      oathOfOfficeDate: member.oathOfOfficeDate
-    };
-  }
-
-  fetchMembers(page) {
+  fetchMembers(page, perPage, partyFilter) {
     this.setState({ isLoading: true, errorText: "" });
-    fetch(
-      `${config.corsProxy}/https://clerkapi.azure-api.net/Members?key=${
-        config.apiKey
-      }&$skip=${this.state.perPage *
-        page}&$orderby=sortName&$filter=active%20eq%20'yes'`
+    MemberAPI.fetchMembers(
+      page,
+      typeof perPage !== "undefined" ? perPage : this.state.perPage,
+      typeof partyFilter !== "undefined" ? partyFilter : this.state.partyFilter
     )
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Error with proxy server!");
-      })
       .then(membersJson => {
         if (!membersJson.results) {
           throw new Error("API response missing results");
@@ -65,7 +43,7 @@ class App extends Component {
         let { pagination } = membersJson;
         this.setState({
           members: membersJson.results.map(member =>
-            this.filterResponse(member)
+            MemberAPI.filterMemberResponse(member)
           ),
           perPage: pagination.per_page,
           numberPages: pagination.number_pages,
@@ -79,7 +57,9 @@ class App extends Component {
   }
 
   updatePartyFilter(event) {
-    this.setState({ partyFilter: event.target.value });
+    const partyFilter = event.target.value;
+    this.setState({ partyFilter });
+    this.fetchMembers(this.state.page, this.state.perPage, partyFilter);
   }
 
   render() {
