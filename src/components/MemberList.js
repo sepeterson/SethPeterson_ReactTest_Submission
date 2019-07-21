@@ -1,6 +1,7 @@
 import React from "react";
 import "./MemberList.css";
 import Member from "./Member";
+import * as Selectors from "./Selectors";
 
 function MemberList(props) {
   return (
@@ -12,6 +13,8 @@ function MemberList(props) {
           party={m.party}
           state={m.stateCode}
           district={m.stateDistrict}
+          hometown={Selectors.getHometown(m)}
+          address={Selectors.getDCAddress(m)}
           index={index}
         />
       ))}

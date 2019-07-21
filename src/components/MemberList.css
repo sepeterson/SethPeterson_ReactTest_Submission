@@ -7,14 +7,16 @@
 }
 
 .member-name {
-  font-size: 14pt;
+  font-size: 12pt;
+  font-weight: bold;
 }
 
 .member-container {
-  padding-left: 8px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 8px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .odd-row {
