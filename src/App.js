@@ -13,10 +13,12 @@ class App extends Component {
       page: 0,
       errorText: "",
       isLoading: false,
-      partyFilter: ""
+      partyFilter: "",
+      sortBy: "sortName"
     };
 
     this.updatePartyFilter = this.updatePartyFilter.bind(this);
+    this.updateSortBy = this.updateSortBy.bind(this);
   }
 
   componentDidMount() {
@@ -29,12 +31,13 @@ class App extends Component {
     }
   }
 
-  fetchMembers(page, perPage, partyFilter) {
+  fetchMembers(page, perPage, partyFilter, sortBy = this.state.sortBy) {
     this.setState({ isLoading: true, errorText: "" });
     MemberAPI.fetchMembers(
       page,
       typeof perPage !== "undefined" ? perPage : this.state.perPage,
-      typeof partyFilter !== "undefined" ? partyFilter : this.state.partyFilter
+      typeof partyFilter !== "undefined" ? partyFilter : this.state.partyFilter,
+      sortBy
     )
       .then(membersJson => {
         if (!membersJson.results) {
@@ -62,6 +65,17 @@ class App extends Component {
     this.fetchMembers(this.state.page, this.state.perPage, partyFilter);
   }
 
+  updateSortBy(event) {
+    const sortBy = event.target.value;
+    this.setState({ sortBy });
+    this.fetchMembers(
+      this.state.page,
+      this.state.perPage,
+      this.state.partyFilter,
+      sortBy
+    );
+  }
+
   render() {
     const { members, page, numberPages, errorText } = this.state;
     return (
@@ -85,6 +99,19 @@ class App extends Component {
                 </label>
               </form>
               <h4>Sort By</h4>
+              <form>
+                <label>
+                  <select
+                    value={this.state.sortBy}
+                    onChange={this.updateSortBy}
+                  >
+                    <option value="sortName">Name</option>
+                    <option value="congresses/stateCode%2CsortName">
+                      State
+                    </option>
+                  </select>
+                </label>
+              </form>
             </div>
             {this.state.errorText && <h3>{errorText}</h3>}
             <MemberList members={members} />

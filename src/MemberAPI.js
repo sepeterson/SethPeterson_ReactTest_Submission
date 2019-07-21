@@ -1,12 +1,11 @@
 import config from "./config.json";
 
-export const fetchMembers = (page = 0, perPage = 0, partyFilter) => {
-  console.log("doing fetch " + partyFilter);
+export const fetchMembers = (page = 0, perPage = 0, partyFilter, sortBy) => {
   return fetch(
     `${config.corsProxy}/https://clerkapi.azure-api.net/Members?key=${
       config.apiKey
     }&$skip=${perPage *
-      page}&$orderby=sortName&$filter=active%20eq%20%27yes%27${
+      page}&$orderby=${sortBy}&$filter=active%20eq%20%27yes%27${
       partyFilter
         ? `%20and%20congresses/partyAffiliations/name%20eq%20%27${partyFilter}%27`
         : ""
