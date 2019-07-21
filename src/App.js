@@ -27,18 +27,18 @@ class App extends Component {
 
   updatePage(page) {
     if (page >= 0 && page < this.state.numberPages) {
-      this.fetchMembers(page, this.state.perPage, this.state.partyFilter);
+      this.fetchMembers({ page });
     }
   }
 
-  fetchMembers(page, perPage, partyFilter, sortBy = this.state.sortBy) {
+  fetchMembers(args) {
+    const { page, perPage, partyFilter, sortBy } = Object.assign(
+      {},
+      this.state,
+      args
+    );
     this.setState({ isLoading: true, errorText: "" });
-    MemberAPI.fetchMembers(
-      page,
-      typeof perPage !== "undefined" ? perPage : this.state.perPage,
-      typeof partyFilter !== "undefined" ? partyFilter : this.state.partyFilter,
-      sortBy
-    )
+    MemberAPI.fetchMembers(page, perPage, partyFilter, sortBy)
       .then(membersJson => {
         if (!membersJson.results) {
           throw new Error("API response missing results");
@@ -62,18 +62,15 @@ class App extends Component {
   updatePartyFilter(event) {
     const partyFilter = event.target.value;
     this.setState({ partyFilter });
-    this.fetchMembers(this.state.page, this.state.perPage, partyFilter);
+    this.fetchMembers({ partyFilter });
   }
 
   updateSortBy(event) {
     const sortBy = event.target.value;
     this.setState({ sortBy });
-    this.fetchMembers(
-      this.state.page,
-      this.state.perPage,
-      this.state.partyFilter,
+    this.fetchMembers({
       sortBy
-    );
+    });
   }
 
   render() {
