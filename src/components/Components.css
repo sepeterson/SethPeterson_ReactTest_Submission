@@ -1,0 +1,9 @@
+.page-buttons {
+  cursor: pointer;
+  color: black;
+  background-color: white;
+  padding: 4px;
+  transition: background-color 0.3s;
+  border: 1px solid #ddd;
+  margin: 4px;
+}

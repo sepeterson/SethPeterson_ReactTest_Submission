@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 import MemberList from "./components/MemberList";
-import StateSelector from "./components/StateSelector/StateSelector";
+import StateSelector from "./components/StateSelector";
+import PageButtons from "./components/PageButtons";
 import * as MemberAPI from "./MemberAPI";
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
     this.updatePartyFilter = this.updatePartyFilter.bind(this);
     this.updateStateFilter = this.updateStateFilter.bind(this);
     this.updateSortBy = this.updateSortBy.bind(this);
+    this.updatePage = this.updatePage.bind(this);
   }
 
   componentDidMount() {
@@ -83,7 +85,7 @@ class App extends Component {
   }
 
   render() {
-    const { members, page, numberPages, errorText } = this.state;
+    const { members, page, numberPages, errorText, isLoading } = this.state;
     return (
       <div className="App">
         <div className="content-container">
@@ -105,6 +107,7 @@ class App extends Component {
                   </select>
                 </label>
               </form>
+              <br />
               <StateSelector
                 stateFilter={this.state.stateFilter}
                 updateStateFilter={this.updateStateFilter}
@@ -124,25 +127,19 @@ class App extends Component {
                 </label>
               </form>
             </div>
-            {this.state.errorText && <h3>{errorText}</h3>}
+            {errorText && <h3>{errorText}</h3>}
             <MemberList members={members} />
           </div>
           <div className="page-controls">
-            <span
-              className="page-buttons"
-              onClick={() => this.updatePage(page - 1)}
-            >
-              &laquo;
-            </span>
-            <span>
-              Page {page + 1} of {numberPages}
-            </span>
-            <span
-              className="page-buttons"
-              onClick={() => this.updatePage(page + 1)}
-            >
-              &raquo;
-            </span>
+            {isLoading ? (
+              <div>loading...</div>
+            ) : (
+              <PageButtons
+                page={page}
+                numberPages={numberPages}
+                updatePage={this.updatePage}
+              />
+            )}
           </div>
         </div>
       </div>
