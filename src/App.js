@@ -4,14 +4,20 @@ import MemberList from "./components/MemberList";
 import config from "./config.json";
 
 class App extends Component {
-  state = {
-    members: [],
-    perPage: 0,
-    numberPages: 0,
-    page: 0,
-    errorText: "",
-    isLoading: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      members: [],
+      perPage: 0,
+      numberPages: 0,
+      page: 0,
+      errorText: "",
+      isLoading: false,
+      partyFilter: ""
+    };
+
+    this.updatePartyFilter = this.updatePartyFilter.bind(this);
+  }
 
   componentDidMount() {
     this.fetchMembers(0);
@@ -72,18 +78,37 @@ class App extends Component {
       );
   }
 
+  updatePartyFilter(event) {
+    this.setState({ partyFilter: event.target.value });
+  }
+
   render() {
     const { members, page, numberPages, errorText } = this.state;
     return (
       <div className="App">
         <div className="content-container">
-          <h3>Members</h3>
-          {this.state.errorText && <h3>{errorText}</h3>}
-          {this.state.isLoading ? (
-            <div>loading...</div>
-          ) : (
+          <h3 className="members-header">Members</h3>
+          <div className="list-container">
+            <div className="filter-controls">
+              <h4>Filter Results</h4>
+              <form>
+                <label>
+                  Party:
+                  <select
+                    value={this.state.partyFilter}
+                    onChange={this.updatePartyFilter}
+                  >
+                    <option value="" />
+                    <option value="Democrat">Democrat</option>
+                    <option value="Republican">Republican</option>
+                  </select>
+                </label>
+              </form>
+              <h4>Sort By</h4>
+            </div>
+            {this.state.errorText && <h3>{errorText}</h3>}
             <MemberList members={members} />
-          )}
+          </div>
           <div className="page-controls">
             <span
               className="page-buttons"

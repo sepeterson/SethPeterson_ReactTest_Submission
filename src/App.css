@@ -29,3 +29,22 @@
   border: 1px solid #ddd;
   margin: 4px;
 }
+
+.filter-controls {
+  height: 100%;
+  width: 180px;
+  background-color: #f4f4f4;
+  padding: 8px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.members-header {
+  text-align: center;
+}
