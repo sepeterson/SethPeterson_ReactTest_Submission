@@ -9,14 +9,14 @@
 }
 
 .member-container {
-  padding-bottom: 8px;
+  padding: 8px;
   width: 100%;
 }
 
 .odd-row {
-  background-color: beige;
+  background-color: #f4f4f4;
 }
 
 .even-row {
-  background-color: gainsboro;
+  background-color: #d4d4d4;
 }

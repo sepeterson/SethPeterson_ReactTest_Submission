@@ -84,18 +84,23 @@ class App extends Component {
           ) : (
             <MemberList members={members} />
           )}
-          <button className="pageUp" onClick={() => this.updatePage(page - 1)}>
-            minus 1
-          </button>
-          <span>
-            Page {page + 1} of {numberPages}
-          </span>
-          <button
-            className="pageDown"
-            onClick={() => this.updatePage(page + 1)}
-          >
-            plus 1
-          </button>
+          <div className="page-controls">
+            <span
+              className="page-buttons"
+              onClick={() => this.updatePage(page - 1)}
+            >
+              &laquo;
+            </span>
+            <span>
+              Page {page + 1} of {numberPages}
+            </span>
+            <span
+              className="page-buttons"
+              onClick={() => this.updatePage(page + 1)}
+            >
+              &raquo;
+            </span>
+          </div>
         </div>
       </div>
     );

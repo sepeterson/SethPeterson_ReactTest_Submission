@@ -3,8 +3,29 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
+  background-color: lightblue;
+  height: 100vh;
 }
 
 .content-container {
   min-width: 800px;
+}
+
+.page-controls {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  padding-top: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-buttons {
+  cursor: pointer;
+  color: black;
+  background-color: white;
+  padding: 4px;
+  transition: background-color 0.3s;
+  border: 1px solid #ddd;
+  margin: 4px;
 }
