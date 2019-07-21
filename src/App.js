@@ -17,11 +17,6 @@ class App extends Component {
     this.fetchMembers(0);
   }
 
-  isOkay(statusCode) {
-    let diff = 200 - statusCode;
-    return !(diff < 0 || diff > 99);
-  }
-
   updatePage(page) {
     if (page >= 0 && page < this.state.numberPages) {
       this.fetchMembers(page);
