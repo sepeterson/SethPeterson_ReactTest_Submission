@@ -24,6 +24,8 @@ git clone https://github.com/Rob--W/cors-anywhere.git
 
 cd cors-anywhere
 
+npm install
+
 export PORT=8080
 
 node server.js
