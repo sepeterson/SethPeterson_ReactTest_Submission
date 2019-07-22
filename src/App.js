@@ -128,8 +128,11 @@ class App extends Component {
                 </label>
               </form>
             </div>
-            {errorText && <h3>{errorText}</h3>}
-            <MemberList members={members} />
+            {errorText ? (
+              <h3 className="error-text">{errorText}</h3>
+            ) : (
+              <MemberList members={members} />
+            )}
           </div>
           <div className="page-controls">
             {isLoading ? (

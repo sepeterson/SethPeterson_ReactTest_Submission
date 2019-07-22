@@ -38,3 +38,8 @@
 .members-header {
   text-align: center;
 }
+
+.error-text {
+  color: red;
+  margin-left: 20%;
+}
