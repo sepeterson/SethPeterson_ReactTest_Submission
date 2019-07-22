@@ -1,6 +1,6 @@
 ## Initial Setup
 
-To get around CORS-related issues with the API, I have utilized cors-anywhere to get around browser rules. The config.json shown below should work by making use of a demo proxy server but it has limits on the numbers of requests put through. For extensive testing, I suggest running your own server locally. Instructions for that can be found in the second section below.
+To get around CORS-related issues with the API, I have utilized cors-anywhere to get around browser rules. The config.json shown below works by making use of a demo proxy server but has limits on the number of requests put through. For extensive testing, I suggest running your own server locally. Instructions for that can be found in the second section below.
 
 To get the project running, create a file in the src folder titled `config.json`.
 
@@ -13,9 +13,11 @@ Minimally, the file should contain the following:
 }
 ```
 
+Then, start the app with `npm start`.
+
 ### Running your own cors proxy
 
-To get a proxy running, do the following:
+To get cors-anywhere running locally, do the following:
 
 ```
 git clone https://github.com/Rob--W/cors-anywhere.git
