@@ -37,6 +37,7 @@ class App extends Component {
   }
 
   fetchMembers(args) {
+    //Destructuring from the method arguments folded into app state in order to make setting default values easier
     const { page, perPage, partyFilter, sortBy, stateFilter } = Object.assign(
       {},
       this.state,

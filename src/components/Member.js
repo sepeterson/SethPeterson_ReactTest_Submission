@@ -19,7 +19,7 @@ function Member(props) {
           {party} - {state} {district}
         </span>
       </div>
-      <div>
+      <div className="address-container">
         <div>{address.streetAddress}</div>
         <div>{address.telephone}</div>
       </div>
